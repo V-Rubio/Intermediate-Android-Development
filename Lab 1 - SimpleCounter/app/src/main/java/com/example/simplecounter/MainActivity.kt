@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private var next_upgrade_goal = 10
     private var currentThemeIndex = 0
     private var total_goals_reached = 0
+    private var powerBoostGoal = 100
 
     private val totalThemes = 3 // Number of themes to cycle through
 
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         val shuffleThemeButton = findViewById<Button>(R.id.shuffle_theme_button)
         val nextUpgradeGoalText = findViewById<TextView>(R.id.next_upgrade_goal)
         val totalGoalsReachedText = findViewById<TextView>(R.id.total_goals_reached)
+        val powerBoostButton = findViewById<Button>(R.id.power_boost_button)
 
         ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { v, insets ->
             val systemBars = insets.getInsets(systemBars())
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         // Initialize UI
         incrementButton.text = "Add $increment_value"
         upgradeButton.visibility = View.GONE
+        powerBoostButton.visibility = View.GONE
 
         // Increment logic
         incrementButton.setOnClickListener {
@@ -54,8 +57,9 @@ class MainActivity : AppCompatActivity() {
             counterTotalText.text = total_count.toString()
             Toast.makeText(this, "Another one!", Toast.LENGTH_SHORT).show()
 
-            if (total_count >= 100){
-
+            if (total_count >= powerBoostGoal){
+                powerBoostButton.text = "Power Boost! Add ${increment_value * 10}!"
+                powerBoostButton.visibility = View.VISIBLE
             }
             if (total_count >= next_upgrade_goal) {
                 upgradeButton.text = "Upgrade to Add ${increment_value + 1}"
@@ -73,6 +77,18 @@ class MainActivity : AppCompatActivity() {
             nextUpgradeGoalText.text = next_upgrade_goal.toString()
             total_goals_reached++
             totalGoalsReachedText.text = (total_goals_reached).toString()
+        }
+
+        // Power Boost Logic
+        powerBoostButton.setOnClickListener {
+            increment_value = increment_value * 10
+            incrementButton.text = "Add $increment_value"
+            powerBoostButton.visibility = View.GONE
+            total_count = 0
+            counterTotalText.text = 0.toString()
+            next_upgrade_goal = increment_value * 10
+            nextUpgradeGoalText.text = next_upgrade_goal.toString()
+            powerBoostGoal = powerBoostGoal * 10
         }
 
         // Shuffle theme logic
