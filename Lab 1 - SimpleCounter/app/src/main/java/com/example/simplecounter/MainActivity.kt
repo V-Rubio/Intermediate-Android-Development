@@ -3,6 +3,7 @@ package com.example.simplecounter
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -73,6 +74,9 @@ class MainActivity : AppCompatActivity() {
                     mainLayout.background = null
                     incrementButton.setBackgroundResource(android.R.drawable.btn_default)
                     incrementButton.text = "Add $increment_value"
+                    incrementButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)  // Clear cookie drawable
+                    counterTotalText.setTextColor(Color.WHITE)  // Reset text color if needed
+                    incrementButton.gravity = Gravity.CENTER
                 }
 
                 1 -> {
@@ -86,8 +90,13 @@ class MainActivity : AppCompatActivity() {
                 2 -> {
                     // White background, cookie image button (no text)
                     mainLayout.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
-                    incrementButton.background = ContextCompat.getDrawable(this, R.drawable.cookie_button)
-                    incrementButton.text = ""
+                    incrementButton.setBackgroundResource(0) // Removes default background
+                    incrementButton.text = "" // No text
+                    incrementButton.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.cookie_button, 0, 0)
+                    incrementButton.gravity = Gravity.CENTER
+                    incrementButton.compoundDrawablePadding = 0
+                    counterTotalText.setTextColor(Color.BLACK)
+
                 }
             }
         }
