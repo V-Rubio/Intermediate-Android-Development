@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
                     incrementButton.setBackgroundResource(android.R.drawable.btn_default)
                     incrementButton.text = "Add $increment_value"
                     incrementButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)  // Clear cookie drawable
-                    counterTotalText.setTextColor(Color.WHITE)  // Reset text color if needed
+                    counterTotalText.setTextColor(Color.BLACK)  // Reset text color if needed
                     incrementButton.gravity = Gravity.CENTER
                 }
 
