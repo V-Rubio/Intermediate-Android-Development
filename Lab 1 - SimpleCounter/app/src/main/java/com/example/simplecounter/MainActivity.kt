@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     private var increment_value = 1
     private var next_upgrade_goal = 10
     private var currentThemeIndex = 0
+    private var total_goals_reached = 0
 
     private val totalThemes = 3 // Number of themes to cycle through
 
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         val counterTotalText = findViewById<TextView>(R.id.counter_total_text)
         val shuffleThemeButton = findViewById<Button>(R.id.shuffle_theme_button)
         val nextUpgradeGoalText = findViewById<TextView>(R.id.next_upgrade_goal)
-        val nextUpgradeGoalTitleText = findViewById<TextView>(R.id.next_upgrade_goal_title)
+        val totalGoalsReachedText = findViewById<TextView>(R.id.total_goals_reached)
 
         ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { v, insets ->
             val systemBars = insets.getInsets(systemBars())
@@ -53,6 +54,9 @@ class MainActivity : AppCompatActivity() {
             counterTotalText.text = total_count.toString()
             Toast.makeText(this, "Another one!", Toast.LENGTH_SHORT).show()
 
+            if (total_count >= 100){
+
+            }
             if (total_count >= next_upgrade_goal) {
                 upgradeButton.text = "Upgrade to Add ${increment_value + 1}"
                 upgradeButton.visibility = View.VISIBLE
@@ -67,6 +71,8 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Upgraded to Add $increment_value!", Toast.LENGTH_SHORT).show()
             next_upgrade_goal += (2 * increment_value) + total_count
             nextUpgradeGoalText.text = next_upgrade_goal.toString()
+            total_goals_reached++
+            totalGoalsReachedText.text = (total_goals_reached).toString()
         }
 
         // Shuffle theme logic

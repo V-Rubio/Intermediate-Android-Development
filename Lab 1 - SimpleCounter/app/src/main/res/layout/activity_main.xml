@@ -8,6 +8,31 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/total_goals_reached"
+        android:layout_width="126dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:text="0"
+        android:textSize="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/total_goals_reached_title"
+        android:layout_width="129dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="252dp"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="text"
+        android:text="Total Goals Reached"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/next_upgrade_goal" />
+
+    <TextView
         android:id="@+id/next_upgrade_goal"
         android:layout_width="126dp"
         android:layout_height="91dp"
