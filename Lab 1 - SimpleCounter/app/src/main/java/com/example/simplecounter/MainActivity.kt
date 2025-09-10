@@ -1,62 +1,95 @@
 package com.example.simplecounter
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
+import androidx.constraintlayout.widget.ConstraintLayout
 
 class MainActivity : AppCompatActivity() {
 
     private var total_count = 0
     private var increment_value = 1
     private var next_upgrade_goal = 10
+    private var currentThemeIndex = 0
+
+    private val totalThemes = 3 // Number of themes to cycle through
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Insets (optional for fullscreen, not needed unless you're using it)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        val mainLayout = findViewById<ConstraintLayout>(R.id.main)
+        val incrementButton = findViewById<Button>(R.id.increment_button)
+        val upgradeButton = findViewById<Button>(R.id.upgrade_button)
+        val counterTotalText = findViewById<TextView>(R.id.counter_total_text)
+        val shuffleThemeButton = findViewById<Button>(R.id.shuffle_theme_button)
+
+        ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { v, insets ->
             val systemBars = insets.getInsets(systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        val incrementButton = findViewById<Button>(R.id.increment_button)
-        val upgradeButton = findViewById<Button>(R.id.upgrade_button)
-        val counterTotalText = findViewById<TextView>(R.id.counter_total_text)
-
         // Initialize UI
         incrementButton.text = "Add $increment_value"
-        upgradeButton.visibility = View.GONE // Initially hidden
+        upgradeButton.visibility = View.GONE
 
-        // Increment button click
+        // Increment logic
         incrementButton.setOnClickListener {
             total_count += increment_value
             counterTotalText.text = total_count.toString()
             Toast.makeText(this, "Another one!", Toast.LENGTH_SHORT).show()
 
-            // Show upgrade button if goal is reached
             if (total_count >= next_upgrade_goal) {
-                upgradeButton.text = "Upgrade to Add ${increment_value+1}"
+                upgradeButton.text = "Upgrade to Add ${increment_value + 1}"
                 upgradeButton.visibility = View.VISIBLE
             }
         }
 
-        // Upgrade button click
+        // Upgrade logic
         upgradeButton.setOnClickListener {
             upgradeButton.visibility = View.GONE
             increment_value++
             incrementButton.text = "Add $increment_value"
-            Toast.makeText(this, "Upgraded to Add ${increment_value}!", Toast.LENGTH_SHORT).show()
-
-            // Calculate next upgrade threshold
+            Toast.makeText(this, "Upgraded to Add $increment_value!", Toast.LENGTH_SHORT).show()
             next_upgrade_goal += (2 * increment_value) + total_count
+        }
+
+        // Shuffle theme logic
+        shuffleThemeButton.setOnClickListener {
+            currentThemeIndex = (currentThemeIndex + 1) % totalThemes
+            when (currentThemeIndex) {
+                0 -> {
+                    // Default Theme
+                    mainLayout.background = null
+                    incrementButton.setBackgroundResource(android.R.drawable.btn_default)
+                    incrementButton.text = "Add $increment_value"
+                }
+
+                1 -> {
+                    // Dog background, text button
+                    mainLayout.background = ContextCompat.getDrawable(this, R.drawable.dog_background)
+                    counterTotalText.setTextColor(Color.WHITE)
+                    incrementButton.setBackgroundResource(android.R.drawable.btn_default)
+                    incrementButton.text = "Add $increment_value"
+                }
+
+                2 -> {
+                    // White background, cookie image button (no text)
+                    mainLayout.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white))
+                    incrementButton.background = ContextCompat.getDrawable(this, R.drawable.cookie_button)
+                    incrementButton.text = ""
+                }
+            }
         }
     }
 }
