@@ -93,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         // Shuffle theme logic
         shuffleThemeButton.setOnClickListener {
+            val params = incrementButton.layoutParams as ConstraintLayout.LayoutParams
             currentThemeIndex = (currentThemeIndex + 1) % totalThemes
             when (currentThemeIndex) {
                 0 -> {
@@ -103,6 +104,11 @@ class MainActivity : AppCompatActivity() {
                     incrementButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)  // Clear cookie drawable
                     counterTotalText.setTextColor(Color.BLACK)  // Reset text color if needed
                     incrementButton.gravity = Gravity.CENTER
+
+                    // Restore original bottom margin (152dp → convert to pixels)
+                    params.bottomMargin = (152 * resources.displayMetrics.density).toInt()
+                    params.marginStart = (160 * resources.displayMetrics.density).toInt()
+                    incrementButton.layoutParams = params
                 }
 
                 1 -> {
@@ -111,6 +117,11 @@ class MainActivity : AppCompatActivity() {
                     counterTotalText.setTextColor(Color.WHITE)
                     incrementButton.setBackgroundResource(android.R.drawable.btn_default)
                     incrementButton.text = "Add $increment_value"
+
+                    // Restore original bottom margin (152dp → convert to pixels)
+                    params.bottomMargin = (152 * resources.displayMetrics.density).toInt()
+                    params.marginStart = (160 * resources.displayMetrics.density).toInt()
+                    incrementButton.layoutParams = params
                 }
 
                 2 -> {
@@ -122,6 +133,11 @@ class MainActivity : AppCompatActivity() {
                     incrementButton.gravity = Gravity.CENTER
                     incrementButton.compoundDrawablePadding = 0
                     counterTotalText.setTextColor(Color.BLACK)
+
+                    // Set bottom margin to 0
+                    params.bottomMargin = -500
+                    params.leftMargin = -200
+                    incrementButton.layoutParams = params
 
                 }
             }
