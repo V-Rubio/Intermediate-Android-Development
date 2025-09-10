@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -33,6 +34,8 @@ class MainActivity : AppCompatActivity() {
         val upgradeButton = findViewById<Button>(R.id.upgrade_button)
         val counterTotalText = findViewById<TextView>(R.id.counter_total_text)
         val shuffleThemeButton = findViewById<Button>(R.id.shuffle_theme_button)
+        val nextUpgradeGoalText = findViewById<TextView>(R.id.next_upgrade_goal)
+        val nextUpgradeGoalTitleText = findViewById<TextView>(R.id.next_upgrade_goal_title)
 
         ViewCompat.setOnApplyWindowInsetsListener(mainLayout) { v, insets ->
             val systemBars = insets.getInsets(systemBars())
@@ -63,6 +66,7 @@ class MainActivity : AppCompatActivity() {
             incrementButton.text = "Add $increment_value"
             Toast.makeText(this, "Upgraded to Add $increment_value!", Toast.LENGTH_SHORT).show()
             next_upgrade_goal += (2 * increment_value) + total_count
+            nextUpgradeGoalText.text = next_upgrade_goal.toString()
         }
 
         // Shuffle theme logic

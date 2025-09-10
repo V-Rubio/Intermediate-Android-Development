@@ -7,22 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/increment_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginBottom="169dp"
-        android:text="Add 1!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/next_upgrade_goal"
+        android:layout_width="126dp"
+        android:layout_height="91dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="10"
+        android:textSize="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/counter_total_text"
         android:layout_width="131dp"
         android:layout_height="147dp"
         android:layout_marginStart="140dp"
-        android:layout_marginBottom="380dp"
+        android:layout_marginBottom="292dp"
         android:gravity="center"
         android:text="0"
         android:textSize="48dp"
@@ -34,8 +36,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="124dp"
-        android:layout_marginBottom="232dp"
+        android:layout_marginBottom="216dp"
         android:text="Upgrade to Add 2!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/increment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
+        android:layout_marginBottom="152dp"
+        android:text="Add 1!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,11 +55,23 @@
         android:id="@+id/shuffle_theme_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Shuffle Theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/next_upgrade_goal_title"
+        android:layout_width="129dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="44dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="text"
+        android:text="Next Goal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/next_upgrade_goal" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
