@@ -47,4 +47,5 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.github.jinatonic.confetti:confetti:1.1.2")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
 }

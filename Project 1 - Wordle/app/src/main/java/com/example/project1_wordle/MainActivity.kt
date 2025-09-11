@@ -1,5 +1,6 @@
 package com.example.project1_wordle
 
+import ThemeAdapter
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +8,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import checkGuess
 import com.example.project1_wordle.util.FourLetterWordList
 import com.github.jinatonic.confetti.CommonConfetti
@@ -38,6 +41,18 @@ class MainActivity : AppCompatActivity() {
         val allWords = FourLetterWordList.getAllFourLetterWords()
         var correctGuessCount = 0
         var guessCount = 0
+
+        val recyclerView = findViewById<RecyclerView>(R.id.themeRecyclerView)
+        val themes = listOf("Animals", "Fruits", "Countries", "Colors") // your wordlist themes
+
+        val adapter = ThemeAdapter(themes) { selectedTheme ->
+            // Handle theme selection here
+            Toast.makeText(this, "Selected theme: $selectedTheme", Toast.LENGTH_SHORT).show()
+            // TODO: update your wordlist accordingly
+        }
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
 
         displayWordToGuess.setText(wordToGuess)

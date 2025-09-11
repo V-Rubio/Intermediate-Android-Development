@@ -225,4 +225,16 @@
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/neonStarImage"
         app:layout_constraintTop_toTopOf="@+id/neonStarImage" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/themeRecyclerView"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:clipToPadding="false"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
