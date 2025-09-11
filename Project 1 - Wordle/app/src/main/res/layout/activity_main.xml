@@ -156,6 +156,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/neonStarImage"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="45dp"
+        android:src="@drawable/neon_star"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/textInput"
         android:layout_width="wrap_content"
@@ -176,9 +186,9 @@
         android:layout_height="25dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="4dp"
+        android:gravity="center"
         android:text="Make a Guess!"
         android:textSize="18dp"
-        android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInput" />
 
@@ -203,4 +213,16 @@
         android:textSize="36dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/displayCorrectGuessCount"
+        android:layout_width="14dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/neonStarImage"
+        app:layout_constraintTop_toTopOf="@+id/neonStarImage" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -25,41 +25,67 @@ class MainActivity : AppCompatActivity() {
 
         val userGuess = findViewById<EditText>(R.id.textInput)
         val displayWordToGuess = findViewById<TextView>(R.id.displayWordToGuess)
+        val displayCorrectGuessCount = findViewById<TextView>(R.id.displayCorrectGuessCount)
         val submitButton = findViewById<Button>(R.id.submitButton)
-        var wordToGuess = FourLetterWordList.getRandomFourLetterWord()
+        var wordToGuess = FourLetterWordList.getRandomFourLetterWord().uppercase()
         val allWords = FourLetterWordList.getAllFourLetterWords()
+        var correctGuessCount = 0
         var guessCount = 0
 
+        displayWordToGuess.setText(wordToGuess)
+
         submitButton.setOnClickListener {
-            val inputLength = userGuess.text.toString().length
+            val normalizedUserGuess = userGuess.text.toString().uppercase()
+            val inputLength = normalizedUserGuess.length
             if (submitButton.text == "New Game"){
                 wordToGuess = FourLetterWordList.getRandomFourLetterWord()
                 displayWordToGuess.setText("XXXX")
+                displayWordToGuess.setText(wordToGuess)
                 resetView()
                 return@setOnClickListener
-            } else if (inputLength != 4) {
-                Toast.makeText(
-                    this,
-                    "Word should only be 4 letters. Try again.",
-                    Toast.LENGTH_SHORT
-                ).show()
+            } else if (normalizedUserGuess.length != 4 || !normalizedUserGuess.matches(Regex("^[A-Z]{4}$"))) {
+                Toast.makeText(this, "Please enter a 4-letter word using only A-Z letters.", Toast.LENGTH_SHORT).show()
                 userGuess.setText("")
+                return@setOnClickListener
             } else {
                 guessCount++
                 val results =
-                    checkGuess(userGuess.text.toString().uppercase(), wordToGuess.uppercase())
+                    checkGuess(normalizedUserGuess, wordToGuess)
                 if (guessCount <= 2) {
-                    setResults(results, userGuess.text.toString().uppercase(), guessCount)
+                    setResults(results, normalizedUserGuess, guessCount)
+                    if (results == "OOOO"){
+                        correctGuessCount++
+                        displayCorrectGuessCount.text = correctGuessCount.toString()
+                        guessCount = 0
+                        submitButton.setText("New Game")
+                        displayWordToGuess.setText(wordToGuess)
+                        Toast.makeText(
+                            this,
+                            "You got it!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@setOnClickListener
+                    }
                 } else {
-                    setResults(results, userGuess.text.toString().uppercase(), guessCount)
+                    setResults(results, normalizedUserGuess, guessCount)
+                    if (results == "OOOO"){
+                        correctGuessCount++
+                        displayCorrectGuessCount.text = correctGuessCount.toString()
+                        Toast.makeText(
+                            this,
+                            "You got it!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            "Good Game! The word was: ${wordToGuess}!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                     guessCount = 0
-                    Toast.makeText(
-                        this,
-                        "Good Game! The word was: ${wordToGuess.uppercase()}!",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     submitButton.setText("New Game")
-                    displayWordToGuess.setText(wordToGuess.uppercase())
+                    displayWordToGuess.setText(wordToGuess)
                 }
             }
         }
@@ -94,6 +120,7 @@ class MainActivity : AppCompatActivity() {
                 'O' -> field.setTextColor(getColor(R.color.correct_position)) // green
                 '+' -> field.setTextColor(getColor(R.color.wrong_position))   // yellow
                 'X' -> field.setTextColor(getColor(R.color.not_in_word))      // black
+                else -> field.setTextColor(getColor(R.color.not_in_word)) // default fallback
             }
 
             // Optional: disable the field so it's not editable
