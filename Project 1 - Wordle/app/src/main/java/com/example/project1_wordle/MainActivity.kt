@@ -2,6 +2,7 @@ package com.example.project1_wordle
 
 import ThemeAdapter
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
@@ -20,6 +21,9 @@ import com.github.jinatonic.confetti.ConfettiManager
 
 class MainActivity : AppCompatActivity() {
     private var confettiManager: ConfettiManager? = null
+    private var selectedTheme: String = "Scrambled"  // default theme
+    private lateinit var adapter: ThemeAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,18 +41,23 @@ class MainActivity : AppCompatActivity() {
         val displayWordToGuess = findViewById<TextView>(R.id.displayWordToGuess)
         val displayCorrectGuessCount = findViewById<TextView>(R.id.displayCorrectGuessCount)
         val submitButton = findViewById<Button>(R.id.submitButton)
-        var wordToGuess = FourLetterWordList.getRandomFourLetterWord().uppercase()
+        var wordToGuess = when (selectedTheme) {
+            "Animals" -> FourLetterWordList.getRandomAnimalWord()
+            "Fruits" -> FourLetterWordList.getRandomFoodWord()
+            "Space" -> FourLetterWordList.getRandomSpaceWord()
+            else -> FourLetterWordList.getRandomFourLetterWord() // default "Scrambled"
+        }.uppercase()
+
         val allWords = FourLetterWordList.getAllFourLetterWords()
         var correctGuessCount = 0
         var guessCount = 0
 
         val recyclerView = findViewById<RecyclerView>(R.id.themeRecyclerView)
-        val themes = listOf("Animals", "Fruits", "Countries", "Colors") // your wordlist themes
+        val themes = listOf("Scrambled", "Animals", "Fruits", "Space") // colors and countries
 
-        val adapter = ThemeAdapter(themes) { selectedTheme ->
-            // Handle theme selection here
+        adapter = ThemeAdapter(themes, selectedTheme) { newTheme ->
+            selectedTheme = newTheme
             Toast.makeText(this, "Selected theme: $selectedTheme", Toast.LENGTH_SHORT).show()
-            // TODO: update your wordlist accordingly
         }
 
         recyclerView.adapter = adapter
@@ -61,17 +70,25 @@ class MainActivity : AppCompatActivity() {
             val normalizedUserGuess = userGuess.text.toString().uppercase()
             val inputLength = normalizedUserGuess.length
             if (submitButton.text == "New Game"){
+                recyclerView.visibility = View.VISIBLE
                 confettiManager?.terminate()
-                wordToGuess = FourLetterWordList.getRandomFourLetterWord()
+                wordToGuess = when (selectedTheme) {
+                    "Animals" -> FourLetterWordList.getRandomAnimalWord()
+                    "Fruits" -> FourLetterWordList.getRandomFoodWord()
+                    "Space" -> FourLetterWordList.getRandomSpaceWord()
+                    else -> FourLetterWordList.getRandomFourLetterWord() // default "Scrambled"
+                }.uppercase()
                 displayWordToGuess.setText("XXXX")
                 displayWordToGuess.setText(wordToGuess)
                 resetView()
                 return@setOnClickListener
             } else if (normalizedUserGuess.length != 4 || !normalizedUserGuess.matches(Regex("^[A-Z]{4}$"))) {
+                recyclerView.visibility = View.GONE
                 Toast.makeText(this, "Please enter a 4-letter word using only A-Z letters.", Toast.LENGTH_SHORT).show()
                 userGuess.setText("")
                 return@setOnClickListener
             } else {
+                recyclerView.visibility = View.GONE
                 guessCount++
                 val results =
                     checkGuess(normalizedUserGuess, wordToGuess)

@@ -6,19 +6,18 @@ import com.example.project1_wordle.R
 
 class ThemeAdapter(
     private val themes: List<String>,
+    private var selectedTheme: String,
     private val onThemeSelected: (String) -> Unit
 ) : RecyclerView.Adapter<ThemeAdapter.ThemeViewHolder>() {
-
-    private var selectedPosition = RecyclerView.NO_POSITION
 
     inner class ThemeViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView) {
         init {
             textView.setOnClickListener {
-                val previousPosition = selectedPosition
-                selectedPosition = adapterPosition
-                notifyItemChanged(previousPosition)
-                notifyItemChanged(selectedPosition)
-                onThemeSelected(themes[adapterPosition])
+                val newTheme = themes[adapterPosition]
+                val previousTheme = selectedTheme
+                selectedTheme = newTheme
+                notifyDataSetChanged()  // Refresh all items to update highlights
+                onThemeSelected(newTheme)
             }
         }
     }
@@ -30,12 +29,14 @@ class ThemeAdapter(
     }
 
     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {
-        holder.textView.text = themes[position]
-        // Highlight selected item
+        val theme = themes[position]
+        holder.textView.text = theme
+        val isSelected = theme == selectedTheme
         holder.textView.setBackgroundResource(
-            if (position == selectedPosition) R.drawable.theme_item_selected_background else R.drawable.theme_item_background
+            if (isSelected) R.drawable.theme_item_selected_background
+            else R.drawable.theme_item_background
         )
     }
 
-    override fun getItemCount() = themes.size
+    override fun getItemCount(): Int = themes.size
 }
