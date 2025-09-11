@@ -9,10 +9,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import checkGuess
 import com.example.project1_wordle.util.FourLetterWordList
+import com.github.jinatonic.confetti.CommonConfetti
+import com.github.jinatonic.confetti.ConfettiManager
 
 class MainActivity : AppCompatActivity() {
+    private var confettiManager: ConfettiManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,6 +27,9 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        // Find the container
+        val container = findViewById<ConstraintLayout>(R.id.main)
+
         val userGuess = findViewById<EditText>(R.id.textInput)
         val displayWordToGuess = findViewById<TextView>(R.id.displayWordToGuess)
         val displayCorrectGuessCount = findViewById<TextView>(R.id.displayCorrectGuessCount)
@@ -32,12 +39,14 @@ class MainActivity : AppCompatActivity() {
         var correctGuessCount = 0
         var guessCount = 0
 
+
         displayWordToGuess.setText(wordToGuess)
 
         submitButton.setOnClickListener {
             val normalizedUserGuess = userGuess.text.toString().uppercase()
             val inputLength = normalizedUserGuess.length
             if (submitButton.text == "New Game"){
+                confettiManager?.terminate()
                 wordToGuess = FourLetterWordList.getRandomFourLetterWord()
                 displayWordToGuess.setText("XXXX")
                 displayWordToGuess.setText(wordToGuess)
@@ -64,6 +73,10 @@ class MainActivity : AppCompatActivity() {
                             "You got it!",
                             Toast.LENGTH_SHORT
                         ).show()
+                        confettiManager = CommonConfetti.rainingConfetti(
+                            container,
+                            intArrayOf(getColor(R.color.gold))
+                        ).stream(300)
                         return@setOnClickListener
                     }
                 } else {
@@ -76,6 +89,10 @@ class MainActivity : AppCompatActivity() {
                             "You got it!",
                             Toast.LENGTH_SHORT
                         ).show()
+                        confettiManager = CommonConfetti.rainingConfetti(
+                            container,
+                            intArrayOf(getColor(R.color.gold))
+                        ).stream(300)
                     } else {
                         Toast.makeText(
                             this,

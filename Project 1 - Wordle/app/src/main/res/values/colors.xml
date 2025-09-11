@@ -5,4 +5,5 @@
     <color name="correct_position">#00C853</color> <!-- Green -->
     <color name="wrong_position">#FFD600</color>  <!-- Yellow -->
     <color name="not_in_word">#000000</color>     <!-- Black -->
+    <color name="gold">#FFD700</color>
 </resources>
