@@ -21,6 +21,24 @@ object FourLetterWordList {
                 "Tall,Then,Thin,Tidy,Tiny,Tory,Ugly,Vain,Vast,Very,Vice,Warm,Wary,Weak,Wide,Wild,Wise,Zero,Ably,Afar,Anew,Away,Back,Dead,Deep,Down,Duly,Easy,Else,Even,Ever,Fair,Fast,Flat,Full,Good,Half,Hard,Here,High,Home,Idly,Just,Late,Like," +
                 "Live,Long,Loud,Much,Near,Nice,Okay,Once,Only,Over,Part,Past,Real,Slow,Solo,Soon,Sure,That,Then,This,Thus,Very,When,Wide"
 
+    val animalWords = listOf(
+        "Bear", "Lion", "Wolf", "Fish", "Crab", "Frog", "Hawk", "Moth",
+        "Deer", "Lamb", "Colt", "Puma", "Duck", "Owl", "Swan", "Mule",
+        "Boar", "Fawn", "Bats", "Eels", "Cats", "Dogs"
+    )
+
+    val foodWords = listOf(
+        "Cake", "Fish", "Beef", "Corn", "Eggs", "Rice", "Milk", "Lime",
+        "Salt", "Kale", "Pear", "Yam", "Ham", "Fig", "Nut", "Soda",
+        "Oats", "Coco", "Buns", "Roll", "Taco", "Soup"
+    )
+
+    val spaceWords = listOf(
+        "Star", "Mars", "Moon", "Nova", "Void", "Astro", "Coma", "Dust",
+        "Iron", "Blue", "Orb", "Sol", "Spin", "Shot", "Ring", "Dark",
+        "Halo", "Beam", "Mars", "Vast", "Zoom"
+    )
+
     // Returns a list of four letter words as a list
     fun getAllFourLetterWords(): List<String> {
         return fourLetterWords.split(",")
@@ -31,5 +49,17 @@ object FourLetterWordList {
         val allWords = getAllFourLetterWords()
         val randomNumber = (0..allWords.size).shuffled().last()
         return allWords[randomNumber].uppercase()
+    }
+
+    fun getRandomAnimalWord(): String {
+        return animalWords.random().uppercase()
+    }
+
+    fun getRandomFoodWord(): String {
+        return foodWords.random().uppercase()
+    }
+
+    fun getRandomSpaceWord(): String {
+        return spaceWords.random().uppercase()
     }
 }
