@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         val submitButton = findViewById<Button>(R.id.submitButton)
         var wordToGuess = when (selectedTheme) {
             "Animals" -> FourLetterWordList.getRandomAnimalWord()
-            "Fruits" -> FourLetterWordList.getRandomFoodWord()
+            "Foods" -> FourLetterWordList.getRandomFoodWord()
             "Space" -> FourLetterWordList.getRandomSpaceWord()
             else -> FourLetterWordList.getRandomFourLetterWord() // default "Scrambled"
         }.uppercase()
@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         var guessCount = 0
 
         val recyclerView = findViewById<RecyclerView>(R.id.themeRecyclerView)
-        val themes = listOf("Scrambled", "Animals", "Fruits", "Space") // colors and countries
+        val themes = listOf("Scrambled", "Animals", "Foods", "Space") // colors and countries
 
         adapter = ThemeAdapter(themes, selectedTheme) { newTheme ->
             selectedTheme = newTheme
@@ -62,33 +62,31 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.visibility = View.GONE
 
-
-        displayWordToGuess.setText(wordToGuess)
+//        displayWordToGuess.setText(wordToGuess)
 
         submitButton.setOnClickListener {
             val normalizedUserGuess = userGuess.text.toString().uppercase()
             val inputLength = normalizedUserGuess.length
             if (submitButton.text == "New Game"){
-                recyclerView.visibility = View.VISIBLE
+                recyclerView.visibility = View.GONE
                 confettiManager?.terminate()
                 wordToGuess = when (selectedTheme) {
                     "Animals" -> FourLetterWordList.getRandomAnimalWord()
-                    "Fruits" -> FourLetterWordList.getRandomFoodWord()
+                    "Foods" -> FourLetterWordList.getRandomFoodWord()
                     "Space" -> FourLetterWordList.getRandomSpaceWord()
                     else -> FourLetterWordList.getRandomFourLetterWord() // default "Scrambled"
                 }.uppercase()
                 displayWordToGuess.setText("XXXX")
-                displayWordToGuess.setText(wordToGuess)
+//                displayWordToGuess.setText(wordToGuess)
                 resetView()
                 return@setOnClickListener
             } else if (normalizedUserGuess.length != 4 || !normalizedUserGuess.matches(Regex("^[A-Z]{4}$"))) {
-                recyclerView.visibility = View.GONE
                 Toast.makeText(this, "Please enter a 4-letter word using only A-Z letters.", Toast.LENGTH_SHORT).show()
                 userGuess.setText("")
                 return@setOnClickListener
             } else {
-                recyclerView.visibility = View.GONE
                 guessCount++
                 val results =
                     checkGuess(normalizedUserGuess, wordToGuess)
@@ -109,6 +107,7 @@ class MainActivity : AppCompatActivity() {
                             container,
                             intArrayOf(getColor(R.color.gold))
                         ).stream(300)
+                        recyclerView.visibility = View.VISIBLE
                         return@setOnClickListener
                     }
                 } else {
@@ -135,6 +134,7 @@ class MainActivity : AppCompatActivity() {
                     guessCount = 0
                     submitButton.setText("New Game")
                     displayWordToGuess.setText(wordToGuess)
+                    recyclerView.visibility = View.VISIBLE
                 }
             }
         }
